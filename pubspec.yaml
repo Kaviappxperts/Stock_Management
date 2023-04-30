@@ -42,6 +42,8 @@ dependencies:
   http: ^0.13.5
   nb_utils: ^4.4.10
   flutter_barcode_scanner: ^2.0.0
+  flutter_native_splash: ^2.2.0+1
+  responsive_framework: ^1.0.0
 
 dev_dependencies:
   flutter_test:
@@ -95,3 +97,11 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_native_splash:
+  background_image: assets/logo.png
+  color: "bee9f6"
+  android_disable_fullscreen: true
+  color_dark: "bee9f6"
+  fill: true
+  android: true
+  ios: true

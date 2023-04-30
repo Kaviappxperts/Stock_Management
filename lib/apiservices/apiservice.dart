@@ -13,6 +13,13 @@ Future getsubNews(productid) async {
   ));
 }
 
+Future getProductDetails() async {
+  var url = "${baseUrl}GetAll?OrganizationId=1";
+  return handleResponse(await http.get(
+    Uri.parse(url),
+  ));
+}
+
 Future updateStockDetail(req) async {
   var url = "${baseUrl}UpdateInventory";
   return handleResponse(

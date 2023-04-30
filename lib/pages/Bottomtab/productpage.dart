@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_sample_design/Getxcontrollers/productscontroller.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,6 +15,7 @@ class ProductPage extends StatefulWidget {
 class _ProductPageState extends State<ProductPage> {
   var searchcontroller = TextEditingController();
   bool check = false;
+  final ProductController dataController = Get.put(ProductController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -156,182 +158,229 @@ class _ProductPageState extends State<ProductPage> {
         //       ],
         //     )),
         Expanded(
-          child: Container(
-            margin: const EdgeInsets.only(top: 20),
-            child: ListView.builder(
-                itemCount: 4,
-                shrinkWrap: true,
-                physics: ClampingScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onLongPress: () {
-                      check = true;
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.only(
-                          top: 13, left: 32, right: 42, bottom: 13),
-                      color: index % 2 != 0
-                          ? Color(0xffffffff)
-                          : Color(0xffF6F6F6),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Product ID",
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w500,
-                                        color: const Color(0xff159594)),
-                                  ),
-                                  Text(
-                                    "PCjs5646824",
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        color: const Color(0xff717171)),
-                                  ),
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 20.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Quantity",
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.w500,
-                                          color: const Color(0xff159594)),
-                                    ),
-                                    Text(
-                                      "250",
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                          color: const Color(0xff717171)),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 16.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Product name",
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.w500,
-                                          color: const Color(0xff159594)),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 8.0),
-                                      child: Text(
-                                        "PCjs5646824",
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                            color: const Color(0xff717171)),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Selling Price",
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.w500,
-                                          color: const Color(0xff159594)),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 8.0),
-                                      child: Text(
-                                        "250",
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                            color: const Color(0xff717171)),
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                          Visibility(
-                            visible: check == true,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 12.0, left: 40, right: 40),
-                              child: Center(
-                                child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+            child: Obx(
+          () => dataController.isDataLoading.value == false
+              ? Padding(
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height / 7),
+                  child: const Center(child: CircularProgressIndicator()),
+                )
+              : Container(
+                  margin: const EdgeInsets.only(top: 20),
+                  child: ListView.builder(
+                      itemCount: dataController.products.length,
+                      shrinkWrap: true,
+                      physics: ClampingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final user=dataController.products[index];
+                        return dataController.products.length==0
+                            ? Image.asset("assets/Group 550.png")
+                            : InkWell(
+                                onLongPress: () {
+                                  check = true;
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.only(
+                                      top: 13, left: 32, right: 42, bottom: 13),
+                                  color: index % 2 != 0
+                                      ? Color(0xffffffff)
+                                      : Color(0xffF6F6F6),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Container(
-                                        height: 28,
-                                        width: 90,
-                                        decoration: BoxDecoration(
-                                            color: Color(0xff159594),
-                                            borderRadius:
-                                                BorderRadius.circular(5)),
-                                        child: Center(
-                                          child: Image.asset(
-                                              "assets/Group 557.png"),
-                                        ),
-                                      ),
-                                      Container(
-                                        height: 28,
-                                        width: 90,
-                                        decoration: BoxDecoration(
-                                            color: Color(0xff159594),
-                                            borderRadius:
-                                                BorderRadius.circular(5)),
-                                        child: Row(
-                                          children: [
-                                            Image.asset(
-                                                "assets/Vector (20).png"),
-                                            Padding(
-                                              padding: const EdgeInsets.only(left:8.0),
-                                              child: Text(
-                                                "View",
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "Product ID",
+                                                style: GoogleFonts.poppins(
+                                                    fontSize: 10,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: const Color(
+                                                        0xff159594)),
+                                              ),
+                                              Text(
+                                                "${user.inventoryCode}",
                                                 style: GoogleFonts.poppins(
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w600,
-                                                    color:
-                                                        const Color(0xffffffff)),
+                                                    color: const Color(
+                                                        0xff717171)),
                                               ),
+                                            ],
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 20.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "Quantity",
+                                                  style: GoogleFonts.poppins(
+                                                      fontSize: 10,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: const Color(
+                                                          0xff159594)),
+                                                ),
+                                                Text(
+                                                  "${user.qtyInHand}",
+                                                  style: GoogleFonts.poppins(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: const Color(
+                                                          0xff717171)),
+                                                ),
+                                              ],
                                             ),
+                                          )
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 16.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "Product name",
+                                                  style: GoogleFonts.poppins(
+                                                      fontSize: 10,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: const Color(
+                                                          0xff159594)),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 8.0),
+                                                  child: Text(
+                                                    "${user.description}",
+                                                    style: GoogleFonts.poppins(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: const Color(
+                                                            0xff717171)),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "Selling Price",
+                                                  style: GoogleFonts.poppins(
+                                                      fontSize: 10,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: const Color(
+                                                          0xff159594)),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 8.0),
+                                                  child: Text(
+                                                    user.sellingPrice.toString(),
+                                                    style: GoogleFonts.poppins(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: const Color(
+                                                            0xff717171)),
+                                                  ),
+                                                ),
+                                              ],
+                                            )
                                           ],
                                         ),
                                       ),
-                                    ]),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  );
-                }),
-          ),
-        )
+                                      Visibility(
+                                        visible: check == true,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 12.0, left: 40, right: 40),
+                                          child: Center(
+                                            child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Container(
+                                                    height: 28,
+                                                    width: 90,
+                                                    decoration: BoxDecoration(
+                                                        color:
+                                                            Color(0xff159594),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5)),
+                                                    child: Center(
+                                                      child: Image.asset(
+                                                          "assets/Group 557.png"),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    height: 28,
+                                                    width: 90,
+                                                    decoration: BoxDecoration(
+                                                        color:
+                                                            Color(0xff159594),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5)),
+                                                    child: Row(
+                                                      children: [
+                                                        Image.asset(
+                                                            "assets/Vector (20).png"),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 8.0),
+                                                          child: Text(
+                                                            "View",
+                                                            style: GoogleFonts.poppins(
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                color: const Color(
+                                                                    0xffffffff)),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ]),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              );
+                      }),
+                ),
+        ))
       ]),
     ));
   }
